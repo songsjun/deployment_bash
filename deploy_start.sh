@@ -53,6 +53,7 @@ set -ue
     set -u
 
     if ! type postinstall &>/dev/null; then
+        echo "151"
         function postinstall () { true; };
     fi
     echo "15"
