@@ -64,7 +64,7 @@ set -ue
         echo "17"
         set -u
         # 检测是否存在 bash perl
-        #ssh $target 'bash --version' &>/dev/null
+        ssh $target '/opt/bin/bash --version' &>/dev/null
         echo "18"
         
         #if [ $? != 0 ]; then
@@ -72,7 +72,7 @@ set -ue
         #    ssh $target 'opkg install bash perl'
         #fi
         echo "19"
-        ssh $target bash <<< "$deploy_script"
+        ssh $target /opt/bin/bash <<< "$deploy_script"
         if [ $? == 0 ]; then
             echo "120"
             set +u
