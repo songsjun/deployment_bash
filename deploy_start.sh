@@ -26,9 +26,7 @@ function extract_remote_script {
 }
 
 function deploy_start {
-    echo "11"
     detect_target
-    echo "12"
     targetip=$(echo $target |cut -d'@' -f2)
     local preinstall="$(echo "$self" |extract_remote_script "export -f $FUNCNAME")
 set +ue
@@ -41,16 +39,13 @@ echo Remote deploy scripts is started !!
 echo '***********************************************************'
 set -ue
 "
-    echo "13"
     local deploy_script="$preinstall$(cat $0 |extract_remote_script $FUNCNAME)"
-    echo "14"
     set +u
     if [ "$SSH_CLIENT$SSH_TTY" ]; then
         is_ssh_login=true
     else
         is_ssh_login=false
     fi
-    echo "is_ssh_login $is_ssh_login"
     set -u
 
     if ! type postinstall &>/dev/null; then
@@ -59,29 +54,22 @@ set -ue
 
     export -f postinstall
 
-    echo "16"
     if ! $is_ssh_login; then
-        echo "17"
         set -u
         # 检测是否存在 bash perl
         ssh $target '/opt/bin/bash --version' &>/dev/null
-        echo "18"
         
-        #if [ $? != 0 ]; then
+        if [ $? != 0 ]; then
             # echo "[0m[33mremote host missing bash & perl, try to install it...[0m"
-        #    ssh $target 'opkg install bash perl'
-        #fi
-        echo "19"
+            ssh $target 'opkg install bash perl'
+        fi
         ssh $target /opt/bin/bash <<< "$deploy_script"
         if [ $? == 0 ]; then
-            echo "120"
             set +u
             postinstall
         fi
-        echo "-11"
         exit 0
     fi
-    echo "-12"
 }
 
 export -f deploy_start
