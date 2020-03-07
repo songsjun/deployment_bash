@@ -50,13 +50,13 @@ set -ue
     else
         is_ssh_login=false
     fi
+    echo "is_ssh_login $is_ssh_login"
     set -u
 
     if ! type postinstall &>/dev/null; then
-        echo "151"
         function postinstall () { true; };
     fi
-    echo "15"
+
     export -f postinstall
 
     echo "16"
