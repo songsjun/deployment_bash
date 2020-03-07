@@ -61,20 +61,20 @@ set -ue
 
     echo "16"
     if ! $is_ssh_login; then
-        set -u
         echo "17"
+        set -u
         # 检测是否存在 bash perl
         #ssh $target 'bash --version' &>/dev/null
         echo "18"
         
-        if [ $? != 0 ]; then
+        #if [ $? != 0 ]; then
             # echo "[0m[33mremote host missing bash & perl, try to install it...[0m"
-            ssh $target 'opkg install bash perl'
-        fi
+        #    ssh $target 'opkg install bash perl'
+        #fi
         echo "19"
         ssh $target bash <<< "$deploy_script"
-        echo "120"
         if [ $? == 0 ]; then
+            echo "120"
             set +u
             postinstall
         fi
