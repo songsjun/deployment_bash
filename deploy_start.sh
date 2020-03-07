@@ -26,8 +26,9 @@ function extract_remote_script {
 }
 
 function deploy_start {
+    echo "11"
     detect_target
-
+    echo "12"
     targetip=$(echo $target |cut -d'@' -f2)
     local preinstall="$(echo "$self" |extract_remote_script "export -f $FUNCNAME")
 set +ue
@@ -40,8 +41,9 @@ echo Remote deploy scripts is started !!
 echo '***********************************************************'
 set -ue
 "
+    echo "13"
     local deploy_script="$preinstall$(cat $0 |extract_remote_script $FUNCNAME)"
-
+    echo "14"
     set +u
     if [ "$SSH_CLIENT$SSH_TTY" ]; then
         is_ssh_login=true
@@ -53,6 +55,7 @@ set -ue
     if ! type postinstall &>/dev/null; then
         function postinstall () { true; };
     fi
+    echo "15"
     export -f postinstall
 
     if ! $is_ssh_login; then
@@ -71,9 +74,10 @@ set -ue
             set +u
             postinstall
         fi
-
+        echo "-11"
         exit 0
     fi
+    echo "-12"
 }
 
 export -f deploy_start
