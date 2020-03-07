@@ -64,7 +64,7 @@ set -ue
         set -u
         echo "17"
         # 检测是否存在 bash perl
-        ssh $target 'bash --version' &>/dev/null
+        #ssh $target 'bash --version' &>/dev/null
         echo "18"
         
         if [ $? != 0 ]; then
